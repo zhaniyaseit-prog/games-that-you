@@ -1,0 +1,77 @@
+/* GENERAL */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #111;
+}
+
+/* HEADER */
+header {
+    text-align: center;
+    padding: 80px 20px;
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+    font-size: 48px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* BLOCKS */
+.block {
+    background: white;
+    margin: 40px auto;
+    padding: 40px;
+    width: 80%;
+    max-width: 750px;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid #e7e7e7;
+}
+
+.block h2 {
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.block p {
+    font-size: 16px;
+    color: #444;
+}
+
+/* BUTTONS */
+.btn {
+    margin-top: 20px;
+    padding: 12px 28px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: black;
+    color: white;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    opacity: 0.85;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 25px;
+    background: #fff;
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+    color: #555;
+}
