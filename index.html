@@ -29,15 +29,20 @@
     <div class="hero-right">
       <div class="reg-card">
         <h2>Тіркелу (оқушылар)</h2>
+
         <form id="regForm">
           <label>Аты</label>
           <input name="name" required placeholder="Атыңызды жазыңыз">
+
           <label>Телефон</label>
           <input name="phone" required placeholder="+7 ...">
+
           <label>Құпия сөз</label>
           <input name="password" type="password" required placeholder="Құпия сөз">
+
           <button class="btn submit" type="submit">Тіркелу</button>
         </form>
+
         <p id="msg" class="msg"></p>
       </div>
     </div>
@@ -49,7 +54,7 @@
 </footer>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/u/0/home/projects/1wuu4DjHz4UYAVozLK_px7w8hXTT088GrR14UvItJEUgZ7Jsihf0gyI0p/edit"; // ← мұнда Apps Script URL қойыңыз
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOfHxtjaQup8yCAOZLmkABZlv3R92zrROp3m78mZqzDDpFN5kTTlMXutv-fvESL6351g/exec";
 
 document.getElementById('regForm').addEventListener('submit', async function(e){
   e.preventDefault();
@@ -57,17 +62,23 @@ document.getElementById('regForm').addEventListener('submit', async function(e){
   const data = new FormData(form);
   const msg = document.getElementById('msg');
   msg.textContent = "Жіберілуде...";
+
   try {
     const res = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: data });
     const j = await res.json();
+
     if (j.status === 'success') {
-      msg.textContent = "Сіз тіркелдіңіз — рахмет!";
+      msg.textContent = "Сіз сәтті тіркелдіңіз!";
+      msg.style.color = "#7CFF9C";
       form.reset();
     } else {
-      msg.textContent = "Қате: " + (j.message || "Білмеймін");
+      msg.textContent = "Қате: " + (j.message || "Белгісіз қате");
+      msg.style.color = "red";
     }
+
   } catch (err) {
-    msg.textContent = "Жіберуде қате. Қайта байқап көріңіз.";
+    msg.textContent = "Жіберуде қате кетті. Қайта байқап көріңіз.";
+    msg.style.color = "red";
     console.error(err);
   }
 });
@@ -75,4 +86,3 @@ document.getElementById('regForm').addEventListener('submit', async function(e){
 
 </body>
 </html>
-
