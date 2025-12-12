@@ -1,77 +1,45 @@
-/* GENERAL */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    color: #111;
-}
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<title>Анаграмма (Информатика)</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
-/* HEADER */
-header {
-    text-align: center;
-    padding: 80px 20px;
-    background: white;
-    border-bottom: 1px solid #ddd;
-}
+<body>
 
-header h1 {
-    font-size: 48px;
-    margin: 0;
-    text-transform: uppercase;
-}
+<h1>Анаграмма ойыны</h1>
+<p>Әріптерді дұрыс құрап, сөзді табыңыз.</p>
 
-.subtitle {
-    font-size: 18px;
-    color: #555;
-    margin-top: 10px;
-}
+<div id="word-box"></div>
 
-/* BLOCKS */
-.block {
-    background: white;
-    margin: 40px auto;
-    padding: 40px;
-    width: 80%;
-    max-width: 750px;
-    text-align: center;
-    border-radius: 8px;
-    border: 1px solid #e7e7e7;
-}
+<input id="answer" placeholder="Жауапты енгізіңіз">
+<button class="btn" onclick="check()">Тексеру</button>
 
-.block h2 {
-    margin-bottom: 10px;
-    font-size: 28px;
-}
+<p id="result"></p>
 
-.block p {
-    font-size: 16px;
-    color: #444;
-}
+<script>
+const words = [
+    { original: "алгоритм", scrambled: "лтмаигро" },
+    { original: "процессор", scrambled: "росспреце" },
+    { original: "информатика", scrambled: "мартфионкаи" }
+];
 
-/* BUTTONS */
-.btn {
-    margin-top: 20px;
-    padding: 12px 28px;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    background: black;
-    color: white;
-    transition: 0.3s;
-}
+let current = words[Math.floor(Math.random()*words.length)];
 
-.btn:hover {
-    opacity: 0.85;
-}
+document.getElementById("word-box").innerHTML = 
+    "<h2>" + current.scrambled + "</h2>";
 
-/* FOOTER */
-footer {
-    text-align: center;
-    padding: 25px;
-    background: #fff;
-    margin-top: 40px;
-    border-top: 1px solid #ddd;
-    color: #555;
+function check() {
+    let ans = document.getElementById("answer").value.toLowerCase();
+    if(ans === current.original)
+        document.getElementById("result").innerText = "Дұрыс! 🎉";
+    else
+        document.getElementById("result").innerText = "Қате. Қайта көріңіз.";
 }
+</script>
+
+<a href="index.html" class="btn">Артқа</a>
+
+</body>
+</html>
