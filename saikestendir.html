@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Сәйкестендір (Информатика)</title>
+<title>Анаграмма (Информатика)</title>
 <link rel="stylesheet" href="style.css">
 <style>
-.page-hero { min-height:60vh; background-image:url('images/robot-bg.jpg'); background-size:cover; background-position:center; display:flex; align-items:center; justify-content:center; padding:40px 20px; }
-.match-panel { background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); padding:20px; border-radius:12px; max-width:900px; width:100%; color:#eaf3ff; box-shadow:0 10px 30px rgba(3,10,30,0.6); }
-.draggable { background: linear-gradient(180deg,#8e44ad,#6b2f92); color:#fff; padding:10px 12px; border-radius:8px; margin:8px 0; cursor:grab; }
-.dropzone { min-height:46px; border:2px dashed rgba(255,255,255,0.12); border-radius:8px; padding:8px; display:flex; align-items:center; justify-content:center; margin:8px 0; color:#dff4ff }
-.score { margin-top:10px; color:#bff0c9; font-weight:700; }
+.page-hero{ min-height:60vh; background-image:url('images/robot-bg.jpg'); background-size:cover; background-position:center; display:flex; align-items:center; justify-content:center; padding:40px 20px; }
+.panel{ background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); padding:20px; border-radius:12px; max-width:700px; width:100%; color:#eaf3ff; box-shadow:0 10px 30px rgba(3,10,30,0.6); text-align:center; }
+#word-box h2{ letter-spacing:6px; font-size:32px; color:#cfe6ff; }
+input { padding:10px; width:80%; border-radius:8px; margin-top:12px; border:none; background: rgba(255,255,255,0.03); color:#eaf3ff; }
+.result { margin-top:12px; color:#bff0c9; font-weight:700; }
 </style>
 </head>
 <body>
@@ -18,66 +18,54 @@
 <header class="site-header"><div class="logo">Информатика ойындары</div></header>
 
 <section class="page-hero">
-  <div class="match-panel">
-    <h1>Сәйкестендір</h1>
-    <p>Терминдерді дұрыс анықтамамен сәйкестендіріңіз</p>
+  <div class="panel">
+    <h1>Анаграмма</h1>
+    <p>Әріптерді дұрыс орналастырыңыз</p>
 
-    <div style="display:flex; gap:30px;">
-      <div style="flex:1;">
-        <div id="items">
-          <div class="draggable" draggable="true" id="cpu">Процессор</div>
-          <div class="draggable" draggable="true" id="ram">Жедел жады</div>
-          <div class="draggable" draggable="true" id="ssd">SSD диск</div>
-        </div>
-      </div>
+    <div id="word-box"></div>
 
-      <div style="flex:1;">
-        <div class="dropzone" data-match="cpu">Есептеулер жүргізетін құрылғы</div>
-        <div class="dropzone" data-match="ram">Уақытша ақпарат сақталатын жады</div>
-        <div class="dropzone" data-match="ssd">Жылдам сақтау құрылғысы</div>
-      </div>
-    </div>
-
-    <button class="btn" onclick="check()">Нәтижені тексеру</button>
-    <div id="score" class="score"></div>
+    <input id="answer" placeholder="Сөзді енгізіңіз">
+    <br>
+    <button class="btn" onclick="check()">Тексеру</button>
+    <div id="result" class="result"></div>
 
     <a href="index.html" class="btn" style="background:#6b2f92; margin-top:12px; display:inline-block;">Артқа</a>
   </div>
 </section>
 
 <script>
-let dragged = null;
-document.querySelectorAll('.draggable').forEach(el=>{
-  el.addEventListener('dragstart', () => { dragged = el; });
-});
-document.querySelectorAll('.dropzone').forEach(zone=>{
-  zone.addEventListener('dragover', e=> e.preventDefault());
-  zone.addEventListener('drop', function(e){
-    this.innerHTML = '';
-    this.appendChild(dragged);
-    this.setAttribute('data-filled', dragged.id);
-  });
-});
+const words = [
+  { original: "алгоритм", scrambled: "лтмаигро" },
+  { original: "информатика", scrambled: "мфортинaки" },
+  { original: "процессор", scrambled: "споррецос" }
+];
+
+let current = words[Math.floor(Math.random()*words.length)];
+document.getElementById('word-box').innerHTML = "<h2>"+current.scrambled+"</h2>";
 
 function check(){
-  let correct=0;
-  document.querySelectorAll('.dropzone').forEach(z=>{
-    if(z.getAttribute('data-filled') === z.getAttribute('data-match')) correct++;
-  });
-  document.getElementById('score').innerText = `Дұрыс: ${correct} / 3`;
+  const ans = document.getElementById('answer').value.trim().toLowerCase();
+  if(!ans){ document.getElementById('result').innerText = 'Жауап енгізіңіз.'; return; }
+  if(ans === current.original){
+    document.getElementById('result').innerText = 'Дұрыс! 🎉';
+  } else {
+    document.getElementById('result').innerText = 'Қате. Қайта көріңіз.';
+  }
 }
 
-// Optional: send result (same idea as truefalse)
-const APPS_SCRIPT_URL = ""; // қоюға болады
-function sendResult(game, score){
-  if(!APPS_SCRIPT_URL) return;
+// Optional result send same as above
+const APPS_SCRIPT_URL = "";
+function sendResultPrompt(){
+  const resText = document.getElementById('result').innerText;
+  if(!resText) return;
   const name = prompt('Атыңызды енгізіңіз:');
   if(!name) return;
+  if(!APPS_SCRIPT_URL){ alert('Нәтиже жіберілмейді — APPS_SCRIPT_URL бос.'); return; }
   const params = new URLSearchParams();
   params.append('name', name);
-  params.append('game', game);
-  params.append('score', score);
-  fetch(APPS_SCRIPT_URL, { method:'POST', body: params });
+  params.append('game', 'anagramma');
+  params.append('score', resText);
+  fetch(APPS_SCRIPT_URL, { method:'POST', body: params }).then(()=>alert('Жіберілді'));
 }
 </script>
 
