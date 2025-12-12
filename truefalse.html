@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<title>Жалған – Ақиқат (Информатика)</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<h1>Жалған – Ақиқат ойыны</h1>
+<p>Мәлімдемелердің дұрыстығын анықта.</p>
+
+<div id="questions"></div>
+
+<button class="btn" onclick="checkAnswers()">Нәтижені тексеру</button>
+
+<p id="result"></p>
+
+<script>
+const statements = [
+    { q: "Бит — ақпараттың ең кіші өлшем бірлігі.", a: true },
+    { q: "CPU — компьютердің жады құрылғысы.", a: false },
+    { q: "SSD қатқыл дискіге қарағанда жылдамырақ.", a: true },
+    { q: "Python — тек ойын жасауға арналған тіл.", a: false },
+    { q: "Алгоритм — командалардың реттелген тізбегі.", a: true }
+];
+
+let html = "";
+statements.forEach((s, i) => {
+    html += `
+        <div class='question-box'>
+            <p>${i+1}) ${s.q}</p>
+            <label><input type="radio" name="q${i}" value="true"> Ақиқат</label>
+            <label><input type="radio" name="q${i}" value="false"> Жалған</label>
+        </div><br>
+    `;
+});
+
+document.getElementById("questions").innerHTML = html;
+
+function checkAnswers() {
+    let correct = 0;
+    statements.forEach((s, i) => {
+        const selected = document.querySelector(`input[name='q${i}']:checked`);
+        if (selected && selected.value === String(s.a)) correct++;
+    });
+    document.getElementById("result").innerHTML = 
+        "Сіз " + correct + " / " + statements.length + " дұрыс жауап бердіңіз.";
+}
+</script>
+
+<a href="index.html" class="btn">Артқа</a>
+
+</body>
+</html>

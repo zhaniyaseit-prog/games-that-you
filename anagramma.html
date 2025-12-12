@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<title>Анаграмма (Информатика)</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Анаграмма ойыны</h1>
+<p>Әріптерді дұрыс құрап, сөзді табыңыз.</p>
+
+<div id="word-box"></div>
+
+<input id="answer" placeholder="Жауапты енгізіңіз">
+<button class="btn" onclick="check()">Тексеру</button>
+
+<p id="result"></p>
+
+<script>
+const words = [
+    { original: "алгоритм", scrambled: "лтмаигро" },
+    { original: "процессор", scrambled: "росспреце" },
+    { original: "информатика", scrambled: "мартфионкаи" }
+];
+
+let current = words[Math.floor(Math.random()*words.length)];
+
+document.getElementById("word-box").innerHTML = 
+    "<h2>" + current.scrambled + "</h2>";
+
+function check() {
+    let ans = document.getElementById("answer").value.toLowerCase();
+    if(ans === current.original)
+        document.getElementById("result").innerText = "Дұрыс! 🎉";
+    else
+        document.getElementById("result").innerText = "Қате. Қайта көріңіз.";
+}
+</script>
+
+<a href="index.html" class="btn">Артқа</a>
+
+</body>
+</html>

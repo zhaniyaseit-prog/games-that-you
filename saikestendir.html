@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<title>Сәйкестендір (Информатика)</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.box { padding:10px; background:white; border-radius:6px; width:200px; margin:10px auto; }
+.match-area { display:flex; justify-content:center; gap:50px; }
+.draggable { padding:10px; background:#9b59b6; color:white; border-radius:5px; margin:10px; cursor:pointer; }
+.dropzone { padding:10px; border:2px dashed #333; width:200px; height:40px; }
+</style>
+</head>
+
+<body>
+
+<h1>Сәйкестендір ойыны</h1>
+<p>Тіздің сол жағындағы терминдерді оң жақтағы анықтамаларға апарыңыз.</p>
+
+<div class="match-area">
+    <div>
+        <div class="draggable" draggable="true" id="cpu">Процессор</div>
+        <div class="draggable" draggable="true" id="ram">Жедел жады</div>
+        <div class="draggable" draggable="true" id="ssd">SSD диск</div>
+    </div>
+
+    <div>
+        <div class="dropzone" data-match="cpu">Негізгі есептеулер орындалатын құрылғы</div>
+        <div class="dropzone" data-match="ram">Уақытша ақпарат сақталатын жады</div>
+        <div class="dropzone" data-match="ssd">Деректерді жылдам сақтайтын твердотельді құрылғы</div>
+    </div>
+</div>
+
+<button class="btn" onclick="check()">Нәтижені тексеру</button>
+<p id="result"></p>
+
+<script>
+let dragged;
+
+document.querySelectorAll('.draggable').forEach(el => {
+    el.addEventListener('dragstart', () => dragged = el);
+});
+
+document.querySelectorAll('.dropzone').forEach(el => {
+    el.addEventListener('dragover', e => e.preventDefault());
+    el.addEventListener('drop', function() {
+        this.innerHTML = "";
+        this.appendChild(dragged);
+        this.setAttribute("data-filled", dragged.id);
+    });
+});
+
+function check() {
+    let score = 0;
+    document.querySelectorAll('.dropzone').forEach(el => {
+        if (el.getAttribute("data-filled") === el.getAttribute("data-match"))
+            score++;
+    });
+    document.getElementById("result").innerText = 
+        "Сіз " + score + " / 3 терминді дұрыс сәйкестендірдіңіз.";
+}
+</script>
+
+<a href="index.html" class="btn">Артқа</a>
+
+</body>
+</html>
