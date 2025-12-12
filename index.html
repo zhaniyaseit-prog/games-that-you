@@ -2,66 +2,86 @@
 <html lang="kk">
 <head>
 <meta charset="UTF-8">
-<title>Сәйкестендір (Информатика)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Информатика ойындары</title>
 <link rel="stylesheet" href="style.css">
 <style>
-.box { padding:10px; background:white; border-radius:6px; width:200px; margin:10px auto; }
-.match-area { display:flex; justify-content:center; gap:50px; }
-.draggable { padding:10px; background:#9b59b6; color:white; border-radius:5px; margin:10px; cursor:pointer; }
-.dropzone { padding:10px; border:2px dashed #333; width:200px; height:40px; }
+body {
+    background: #e3f2fd; /* ашық көк */
+    font-family: Arial, sans-serif;
+}
+.header {
+    text-align: center;
+    padding: 20px;
+}
+.btn {
+    display: block;
+    width: 250px;
+    margin: 10px auto;
+    padding: 12px;
+    background: #8e44ad; /* фиолетовый */
+    color: white;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+}
+.btn:hover {
+    background: #732d91;
+}
+.container {
+    max-width: 700px;
+    background: white;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+}
+.reg-box {
+    background: #bbdefb;
+    padding: 15px;
+    border-radius: 10px;
+}
+label {
+    font-weight: bold;
+}
+input {
+    width: 98%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
 </style>
 </head>
 
 <body>
 
-<h1>Сәйкестендір ойыны</h1>
-<p>Тіздің сол жағындағы терминдерді оң жақтағы анықтамаларға апарыңыз.</p>
-
-<div class="match-area">
-    <div>
-        <div class="draggable" draggable="true" id="cpu">Процессор</div>
-        <div class="draggable" draggable="true" id="ram">Жедел жады</div>
-        <div class="draggable" draggable="true" id="ssd">SSD диск</div>
-    </div>
-
-    <div>
-        <div class="dropzone" data-match="cpu">Негізгі есептеулер орындалатын құрылғы</div>
-        <div class="dropzone" data-match="ram">Уақытша ақпарат сақталатын жады</div>
-        <div class="dropzone" data-match="ssd">Деректерді жылдам сақтайтын твердотельді құрылғы</div>
-    </div>
+<div class="header">
+    <h1>Информатика пәніне арналған ойындар</h1>
+    <p>Оқушыларға арналған қызықты логикалық ойындар</p>
 </div>
 
-<button class="btn" onclick="check()">Нәтижені тексеру</button>
-<p id="result"></p>
+<div class="container">
+    <h2>Популярлы ойындар</h2>
 
-<script>
-let dragged;
+    <a href="truefalse.html" class="btn">🧠 Жалған – Ақиқат</a>
+    <a href="saikestendir.html" class="btn">🔗 Сәйкестендір</a>
+    <a href="anagramma.html" class="btn">🔤 Анаграмма</a>
+</div>
 
-document.querySelectorAll('.draggable').forEach(el => {
-    el.addEventListener('dragstart', () => dragged = el);
-});
+<div class="container reg-box">
+    <h2>Тіркелу</h2>
 
-document.querySelectorAll('.dropzone').forEach(el => {
-    el.addEventListener('dragover', e => e.preventDefault());
-    el.addEventListener('drop', function() {
-        this.innerHTML = "";
-        this.appendChild(dragged);
-        this.setAttribute("data-filled", dragged.id);
-    });
-});
+    <label>Атыңыз:</label>
+    <input type="text" placeholder="Атыңызды жазыңыз">
 
-function check() {
-    let score = 0;
-    document.querySelectorAll('.dropzone').forEach(el => {
-        if (el.getAttribute("data-filled") === el.getAttribute("data-match"))
-            score++;
-    });
-    document.getElementById("result").innerText = 
-        "Сіз " + score + " / 3 терминді дұрыс сәйкестендірдіңіз.";
-}
-</script>
+    <label>Телефон нөмірі:</label>
+    <input type="text" placeholder="+7 ___ ___ __ __">
 
-<a href="index.html" class="btn">Артқа</a>
+    <label>Құпия сөз:</label>
+    <input type="password" placeholder="Құпия сөз құрастырыңыз">
+
+    <a class="btn">Тіркелу</a>
+</div>
 
 </body>
 </html>
