@@ -1,55 +1,112 @@
 <!DOCTYPE html>
 <html lang="kk">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Жалған – Ақиқат (Информатика)</title>
 <link rel="stylesheet" href="style.css">
+<style>
+/* Page-specific */
+.page-hero {
+  min-height: 60vh;
+  background-image: url('images/robot-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px 20px;
+}
+.game-panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  padding:22px;
+  border-radius:12px;
+  max-width:900px;
+  width:100%;
+  color:#eaf3ff;
+  box-shadow: 0 10px 30px rgba(3,10,30,0.6);
+}
+.question-box { background: rgba(0,0,0,0.25); padding:12px; border-radius:8px; margin-bottom:12px; }
+.radio-inline { margin-right:12px; color:#dfefff; }
+.result { margin-top:12px; font-weight:700; color:#bff0c9; }
+.send-result { margin-top:10px; display:inline-block; background:#5b6cff; padding:8px 12px; color:white; border-radius:8px; text-decoration:none;}
+</style>
 </head>
-
 <body>
-<h1>Жалған – Ақиқат ойыны</h1>
-<p>Мәлімдемелердің дұрыстығын анықта.</p>
 
-<div id="questions"></div>
+<header class="site-header">
+  <div class="logo">Информатика ойындары</div>
+</header>
 
-<button class="btn" onclick="checkAnswers()">Нәтижені тексеру</button>
+<section class="page-hero">
+  <div class="game-panel">
+    <h1>Жалған — Ақиқат (Информатика)</h1>
+    <p>Мәлімдемелердің шын/жалған екенін анықтаңыз.</p>
 
-<p id="result"></p>
+    <div id="questions"></div>
+
+    <button class="btn" onclick="checkAnswers()">Нәтижені тексеру</button>
+    <div id="result" class="result"></div>
+
+    <div style="margin-top:14px;">
+      <button class="send-result" onclick="sendResultPrompt()">Нәтижені Google Sheets-ке жіберу</button>
+      <small style="color:#bcd7ff; display:block; margin-top:6px;">(Қалауыңыз бойынша — мұғалім кестеде көре алады.)</small>
+    </div>
+
+    <a href="index.html" class="btn" style="background:#6b2f92; margin-top:12px; display:inline-block;">Артқа</a>
+  </div>
+</section>
 
 <script>
 const statements = [
-    { q: "Бит — ақпараттың ең кіші өлшем бірлігі.", a: true },
-    { q: "CPU — компьютердің жады құрылғысы.", a: false },
-    { q: "SSD қатқыл дискіге қарағанда жылдамырақ.", a: true },
-    { q: "Python — тек ойын жасауға арналған тіл.", a: false },
-    { q: "Алгоритм — командалардың реттелген тізбегі.", a: true }
+  { q: "Бит — ақпараттың ең кіші өлшем бірлігі.", a: true },
+  { q: "CPU — компьютердің жады құрылғысы.", a: false },
+  { q: "SSD қатқыл дискіге қарағанда жылдамырақ.", a: true },
+  { q: "Python — тек ойын жасауға арналған тіл.", a: false },
+  { q: "Алгоритм — командалардың реттелген тізбегі.", a: true }
 ];
 
-let html = "";
-statements.forEach((s, i) => {
-    html += `
-        <div class='question-box'>
-            <p>${i+1}) ${s.q}</p>
-            <label><input type="radio" name="q${i}" value="true"> Ақиқат</label>
-            <label><input type="radio" name="q${i}" value="false"> Жалған</label>
-        </div><br>
-    `;
+const qWrap = document.getElementById('questions');
+let html = '';
+statements.forEach((s,i)=>{
+  html += `<div class="question-box"><p><strong>${i+1})</strong> ${s.q}</p>
+    <label class="radio-inline"><input type="radio" name="q${i}" value="true"> Ақиқат</label>
+    <label class="radio-inline"><input type="radio" name="q${i}" value="false"> Жалған</label>
+  </div>`;
 });
+qWrap.innerHTML = html;
 
-document.getElementById("questions").innerHTML = html;
+function checkAnswers(){
+  let correct = 0;
+  statements.forEach((s,i)=>{
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    if(sel && sel.value === String(s.a)) correct++;
+  });
+  document.getElementById('result').textContent = `Сіз ${correct} / ${statements.length} дұрыс жауап бердіңіз.`;
+}
 
-function checkAnswers() {
-    let correct = 0;
-    statements.forEach((s, i) => {
-        const selected = document.querySelector(`input[name='q${i}']:checked`);
-        if (selected && selected.value === String(s.a)) correct++;
-    });
-    document.getElementById("result").innerHTML = 
-        "Сіз " + correct + " / " + statements.length + " дұрыс жауап бердіңіз.";
+// --- result send (optional) ---
+const APPS_SCRIPT_URL = ""; // Егер нәтижені тіркеу керек болса осынау жолға Apps Script URL қойыңыз.
+
+function sendResultPrompt(){
+  const scoreText = document.getElementById('result').textContent;
+  if(!scoreText){ alert('Алдымен "Нәтижені тексеру" батырмасын басыңыз.'); return; }
+  const name = prompt('Атыңызды енгізіңіз (оқушы):');
+  if(!name) return;
+  // Егер APPS_SCRIPT_URL бос болмаса — жібереміз
+  if(!APPS_SCRIPT_URL){ alert('Нәтиже жіберілмеді. Мұғалімге Google Sheets-ке автоматты жазу ары қарай қосылады.'); return; }
+  const params = new URLSearchParams();
+  params.append('name', name);
+  params.append('phone', '');
+  params.append('password', '');
+  params.append('game', 'truefalse');
+  params.append('score', scoreText);
+  fetch(APPS_SCRIPT_URL, { method:'POST', body: params })
+    .then(r=>r.json())
+    .then(j=>{ if(j.status==='success') alert('Нәтиже сәтті жіберілді!'); else alert('Жіберуде қате: '+(j.message||'...')); })
+    .catch(()=>alert('Жіберу қате болды.'));
 }
 </script>
-
-<a href="index.html" class="btn">Артқа</a>
 
 </body>
 </html>
