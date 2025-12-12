@@ -1,87 +1,77 @@
 <!DOCTYPE html>
 <html lang="kk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Информатика ойындары</title>
 <link rel="stylesheet" href="style.css">
-<style>
-body {
-    background: #e3f2fd; /* ашық көк */
-    font-family: Arial, sans-serif;
-}
-.header {
-    text-align: center;
-    padding: 20px;
-}
-.btn {
-    display: block;
-    width: 250px;
-    margin: 10px auto;
-    padding: 12px;
-    background: #8e44ad; /* фиолетовый */
-    color: white;
-    border-radius: 8px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 18px;
-}
-.btn:hover {
-    background: #732d91;
-}
-.container {
-    max-width: 700px;
-    background: white;
-    padding: 20px;
-    margin: 20px auto;
-    border-radius: 10px;
-}
-.reg-box {
-    background: #bbdefb;
-    padding: 15px;
-    border-radius: 10px;
-}
-label {
-    font-weight: bold;
-}
-input {
-    width: 98%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
-</style>
 </head>
-
 <body>
 
-<div class="header">
-    <h1>Информатика пәніне арналған ойындар</h1>
-    <p>Оқушыларға арналған қызықты логикалық ойындар</p>
-</div>
+<header class="site-header">
+  <div class="logo">Информатика ойындары</div>
+  <div class="tag">Оқушыларға арналған қызықты тапсырмалар</div>
+</header>
 
-<div class="container">
-    <h2>Популярлы ойындар</h2>
+<main class="main">
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Компьютер, Робот және Технология стиліндегі ойындар</h1>
+      <p>Ойындарды таңдаңыз — білімді қызықты түрде бекітіңіз.</p>
 
-    <a href="truefalse.html" class="btn">🧠 Жалған – Ақиқат</a>
-    <a href="saikestendir.html" class="btn">🔗 Сәйкестендір</a>
-    <a href="anagramma.html" class="btn">🔤 Анаграмма</a>
-</div>
+      <div class="buttons">
+        <a class="btn" href="truefalse.html">🧠 Жалған – Ақиқат</a>
+        <a class="btn" href="saikestendir.html">🔗 Сәйкестендір</a>
+        <a class="btn" href="anagramma.html">🔤 Анаграмма</a>
+      </div>
+    </div>
 
-<div class="container reg-box">
-    <h2>Тіркелу</h2>
+    <div class="hero-right">
+      <div class="reg-card">
+        <h2>Тіркелу (оқушылар)</h2>
+        <form id="regForm">
+          <label>Аты</label>
+          <input name="name" required placeholder="Атыңызды жазыңыз">
+          <label>Телефон</label>
+          <input name="phone" required placeholder="+7 ...">
+          <label>Құпия сөз</label>
+          <input name="password" type="password" required placeholder="Құпия сөз">
+          <button class="btn submit" type="submit">Тіркелу</button>
+        </form>
+        <p id="msg" class="msg"></p>
+      </div>
+    </div>
+  </section>
+</main>
 
-    <label>Атыңыз:</label>
-    <input type="text" placeholder="Атыңызды жазыңыз">
+<footer class="footer">
+  <p>© Информатика — оқу құралдары</p>
+</footer>
 
-    <label>Телефон нөмірі:</label>
-    <input type="text" placeholder="+7 ___ ___ __ __">
+<script>
+const APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEBAPP_URL_HERE"; // ← мұнда Apps Script URL қойыңыз
 
-    <label>Құпия сөз:</label>
-    <input type="password" placeholder="Құпия сөз құрастырыңыз">
-
-    <a class="btn">Тіркелу</a>
-</div>
+document.getElementById('regForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  const msg = document.getElementById('msg');
+  msg.textContent = "Жіберілуде...";
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: data });
+    const j = await res.json();
+    if (j.status === 'success') {
+      msg.textContent = "Сіз тіркелдіңіз — рахмет!";
+      form.reset();
+    } else {
+      msg.textContent = "Қате: " + (j.message || "Білмеймін");
+    }
+  } catch (err) {
+    msg.textContent = "Жіберуде қате. Қайта байқап көріңіз.";
+    console.error(err);
+  }
+});
+</script>
 
 </body>
 </html>
