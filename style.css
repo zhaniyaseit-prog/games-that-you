@@ -1,45 +1,97 @@
-<!DOCTYPE html>
-<html lang="kk">
-<head>
-<meta charset="UTF-8">
-<title>Анаграмма (Информатика)</title>
-<link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<h1>Анаграмма ойыны</h1>
-<p>Әріптерді дұрыс құрап, сөзді табыңыз.</p>
-
-<div id="word-box"></div>
-
-<input id="answer" placeholder="Жауапты енгізіңіз">
-<button class="btn" onclick="check()">Тексеру</button>
-
-<p id="result"></p>
-
-<script>
-const words = [
-    { original: "алгоритм", scrambled: "лтмаигро" },
-    { original: "процессор", scrambled: "росспреце" },
-    { original: "информатика", scrambled: "мартфионкаи" }
-];
-
-let current = words[Math.floor(Math.random()*words.length)];
-
-document.getElementById("word-box").innerHTML = 
-    "<h2>" + current.scrambled + "</h2>";
-
-function check() {
-    let ans = document.getElementById("answer").value.toLowerCase();
-    if(ans === current.original)
-        document.getElementById("result").innerText = "Дұрыс! 🎉";
-    else
-        document.getElementById("result").innerText = "Қате. Қайта көріңіз.";
+/* style.css */
+:root{
+  --accent: #5b6cff;
+  --violet: #8e44ad;
+  --bg: #071028;
+  --card: #ffffff;
 }
-</script>
 
-<a href="index.html" class="btn">Артқа</a>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg,#04102a 0%, #0c2a44 50%, #071028 100%);
+  color:#fff;
+  min-height:100vh;
+  background-image:
+    radial-gradient(rgba(100,160,255,0.03) 1px, transparent 2px),
+    linear-gradient(120deg, rgba(80,110,200,0.06), rgba(120,80,190,0.02));
+  background-size: 100% 100%, 100% 100%;
+  padding-bottom:60px;
+}
 
-</body>
-</html>
+/* tech pattern left */
+.site-header{
+  padding:18px 28px;
+  text-align:left;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.logo{
+  font-size:22px;
+  font-weight:700;
+  color: #dbe9ff;
+}
+.tag{ color: #9fb8e6; margin-top:6px; font-size:13px; }
+
+.main{ max-width:1100px; margin:28px auto; padding:0 18px; }
+
+.hero{
+  display:flex;
+  gap:24px;
+  align-items:flex-start;
+}
+
+/* left content */
+.hero-left{ flex:1; padding:24px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border-radius:12px; position:relative; overflow:hidden; }
+.hero-left h1{ color:#eaf3ff; font-size:28px; margin:0 0 10px; }
+.hero-left p{ color:#acc8f5; margin:0 0 18px; }
+
+/* robot image effect (pure CSS) */
+.hero-left::after{
+  content:"";
+  position:absolute;
+  right:-40px; top:-10px;
+  width:420px; height:420px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(120,160,255,0.08), transparent 20%),
+    linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.0));
+  transform: rotate(12deg);
+  filter: blur(10px);
+  pointer-events:none;
+}
+
+/* buttons */
+.buttons{ margin-top:12px; display:flex; gap:12px; flex-wrap:wrap; }
+.btn{
+  display:inline-block;
+  padding:12px 18px;
+  border-radius:10px;
+  text-decoration:none;
+  color:#fff;
+  background: linear-gradient(180deg,var(--violet), #6b2f92);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  font-weight:600;
+}
+.btn:hover{ transform:translateY(-2px); }
+
+/* right card */
+.hero-right{ width:340px; }
+.reg-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  padding:18px;
+  border-radius:12px;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+.reg-card h2{ margin:0 0 10px; color:#e9f3ff }
+.reg-card label{ display:block; margin-top:10px; color:#cfe6ff; font-size:13px; }
+.reg-card input{
+  width:100%; padding:10px; margin-top:6px; border-radius:8px; border: none;
+  background: rgba(255,255,255,0.03); color:#eaf3ff;
+}
+.submit{ width:100%; margin-top:12px; background: linear-gradient(180deg,#6b2f92,#3b1a5a); }
+
+/* message */
+.msg{ margin-top:8px; color:#bff0c9; font-weight:600; }
+
+/* footer */
+.footer{ text-align:center; margin-top:32px; color:#9fb8e6; opacity:0.9 }
