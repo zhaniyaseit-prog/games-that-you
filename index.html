@@ -1,88 +1,48 @@
 <!DOCTYPE html>
 <html lang="kk">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
 <title>Информатика ойындары</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header class="site-header">
-  <div class="logo">Информатика ойындары</div>
-  <div class="tag">Оқушыларға арналған қызықты тапсырмалар</div>
-</header>
+<div class="hero">
+    Информатика ойындары
+</div>
 
-<main class="main">
-  <section class="hero">
-    <div class="hero-left">
-      <h1>Компьютер, Робот және Технология стиліндегі ойындар</h1>
-      <p>Ойындарды таңдаңыз — білімді қызықты түрде бекітіңіз.</p>
+<div class="section">
+    <h2>Компьютер, Робот және Технология стиліндегі тапсырмалар</h2>
+</div>
 
-      <div class="buttons">
-        <a class="btn" href="truefalse.html">🧠 Жалған – Ақиқат</a>
-        <a class="btn" href="saikestendir.html">🔗 Сәйкестендір</a>
-        <a class="btn" href="anagramma.html">🔤 Анаграмма</a>
-      </div>
-    </div>
+<!-- Ойындар -->
+<div class="card">
+    <h3>Жалған – Ақиқат</h3>
+    <p>Информатика терминдерінің дұрыстығын анықта.</p>
+    <a class="btn" href="truefalse.html">Ойынды бастау</a>
+</div>
 
-    <div class="hero-right">
-      <div class="reg-card">
-        <h2>Тіркелу (оқушылар)</h2>
+<div class="card">
+    <h3>Сәйкестендір</h3>
+    <p>Түсініктерді дұрыс анықтамамен сәйкестендір.</p>
+    <a class="btn" href="saikestendir.html">Ойынды бастау</a>
+</div>
 
-        <form id="regForm">
-          <label>Аты</label>
-          <input name="name" required placeholder="Атыңызды жазыңыз">
+<div class="card">
+    <h3>Анаграмма</h3>
+    <p>Әріптерді дұрыс орналастырып терминді тап.</p>
+    <a class="btn" href="anagramma.html">Ойынды бастау</a>
+</div>
 
-          <label>Телефон</label>
-          <input name="phone" required placeholder="+7 ...">
-
-          <label>Құпия сөз</label>
-          <input name="password" type="password" required placeholder="Құпия сөз">
-
-          <button class="btn submit" type="submit">Тіркелу</button>
-        </form>
-
-        <p id="msg" class="msg"></p>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer class="footer">
-  <p>© Информатика — оқу құралдары</p>
-</footer>
-
-<script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyOfHxtjaQup8yCAOZLmkABZlv3R92zrROp3m78mZqzDDpFN5kTTlMXutv-fvESL6351g/exec";
-
-document.getElementById('regForm').addEventListener('submit', async function(e){
-  e.preventDefault();
-  const form = e.target;
-  const data = new FormData(form);
-  const msg = document.getElementById('msg');
-  msg.textContent = "Жіберілуде...";
-
-  try {
-    const res = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: data });
-    const j = await res.json();
-
-    if (j.status === 'success') {
-      msg.textContent = "Сіз сәтті тіркелдіңіз!";
-      msg.style.color = "#7CFF9C";
-      form.reset();
-    } else {
-      msg.textContent = "Қате: " + (j.message || "Белгісіз қате");
-      msg.style.color = "red";
-    }
-
-  } catch (err) {
-    msg.textContent = "Жіберуде қате кетті. Қайта байқап көріңіз.";
-    msg.style.color = "red";
-    console.error(err);
-  }
-});
-</script>
+<!-- Тіркелу -->
+<div class="card">
+    <h3>Тіркелу (оқушылар)</h3>
+    <input class="input" placeholder="Атыңыз">
+    <input class="input" placeholder="+7 ..." >
+    <input class="input" placeholder="Құпия сөз">
+    <a class="btn">Тіркелу</a>
+</div>
 
 </body>
 </html>
